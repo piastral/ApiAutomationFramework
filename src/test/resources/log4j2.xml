@@ -1,0 +1,23 @@
+<Configuration status ="WARN">
+	
+	<Apppenders>
+		
+		 <Console name ="Console" target ="SYSTEM_OUT">
+			<PatternLayout pattern ="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"></PatternLayout>
+		</Console>
+		
+		
+		
+		  <File name ="File" fileName ="logs/test.log">
+			<PatternLayout pattern ="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"></PatternLayout> 
+			 </File>
+		
+	</Apppenders>
+	<Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+	
+</Configuration>

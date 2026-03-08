@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-03-07T19:56:00 EST" name="Default suite" finished-at="2026-03-07T19:56:04 EST" duration-ms="3942">
+    <groups>
+    </groups>
+    <test started-at="2026-03-07T19:56:00 EST" name="Default test" finished-at="2026-03-07T19:56:04 EST" duration-ms="3942">
+      <class name="com.api.test.SignUpTest">
+        <test-method signature="signUpTest(com.api.model.request.SignUpRequest)[pri:0, instance:com.api.test.SignUpTest@7b36aa0c]" started-at="2026-03-07T19:56:00 EST" name="signUpTest" description="Testing for sign up  " data-provider="SignUpTestDataProvider" finished-at="2026-03-07T19:56:03 EST" duration-ms="3195" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[SignUpRequest [username=mohammed, password=masood, email=msmasood540@gmail.com, firstName=mohammed, lastName=masood, mobileNumber=5166722683]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- signUpTest -->
+        <test-method signature="signUpTest(com.api.model.request.SignUpRequest)[pri:0, instance:com.api.test.SignUpTest@7b36aa0c]" started-at="2026-03-07T19:56:03 EST" name="signUpTest" description="Testing for sign up  " data-provider="SignUpTestDataProvider" finished-at="2026-03-07T19:56:04 EST" duration-ms="520" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[SignUpRequest [username=string, password=string, email=string, firstName=string, lastName=string, mobileNumber=3911960226]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- signUpTest -->
+      </class> <!-- com.api.test.SignUpTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
