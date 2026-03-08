@@ -23,5 +23,7 @@ public class AuthService extends BaseService {
 	public Response signUp (SignUpRequest signUpRequest){
 		return postRequest(signUpRequest ,BASE_PATH+ "signup");
 	 }
+	
+	
 	 
 }

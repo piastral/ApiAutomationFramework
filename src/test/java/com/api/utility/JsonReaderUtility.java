@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.util.List;
 
 import com.api.model.request.LoginRequest;
+import com.api.model.request.ProfileRequest;
 import com.api.model.request.SignUpRequest;
 import com.google.gson.Gson;
 
@@ -47,6 +48,23 @@ public class JsonReaderUtility {
 		
 		
 	}
+//====================================USER-MANAGEMENT-PROFILE-SERVICE=====================================================================
+	
+	public static List<ProfileRequest> readUpdateProfileTestData() 
+            throws FileNotFoundException {
+        
+        Gson gson = new Gson();
+        
+        File file = new File(System.getProperty("user.dir") + 
+            "/src/test/resources/testData/usermanagement-service/update-profile.json");
+        
+        FileReader fileReader = new FileReader(file);
+        
+        Type profileListType = new TypeToken<List<ProfileRequest>>(){}.getType();
+        List<ProfileRequest> profileRequests = gson.fromJson(fileReader, profileListType);
+        
+        return profileRequests;
+    }
 	
 
 
