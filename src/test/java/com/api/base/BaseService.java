@@ -34,6 +34,11 @@ public class BaseService {
 		return requestSpecification.contentType(ContentType.JSON).body(payload).post(endPoint);
 	}
 	
+	
+	protected Response postRequest(Object token,Object payload) {
+		return requestSpecification.header("Authorization", "Bearer " + token).contentType(ContentType.JSON).body(payload).post();
+	}
+	
 
 	
 	protected Response putRequest(Object token ,Object payload, String endpoint) {

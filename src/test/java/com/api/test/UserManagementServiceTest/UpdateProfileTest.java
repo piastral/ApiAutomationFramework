@@ -1,4 +1,4 @@
-package com.api.test;
+package com.api.test.UserManagementServiceTest;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -20,11 +20,17 @@ public class UpdateProfileTest {
 		
 		
 	String token =	AuthHelper.getAuthToken();
+
+	
+	
 	 
 	UserManagementService profileService = new UserManagementService();
 	Response response =profileService.updateProfile(token, profileRequest);
 	
 	Assert.assertEquals(response.statusCode(), 200);
+	
+	
+	System.out.println(response.asPrettyString());
 	}
 
 }

@@ -1,0 +1,143 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven'
+        jdk 'JDK17'
+    }
+
+    environment {
+        COMPOSE_FILE = "${WORKSPACE}/docker/docker-compose.yml"
+    }
+
+    triggers {
+        cron('0 2 * * *') // Every day at 2 AM
+    }
+
+    stages {
+
+        stage('Start Selenium Grid') {
+            steps {
+                script {
+                    sh "docker compose -f ${COMPOSE_FILE} up -d"
+                    sleep 30
+                    echo "Selenium Grid Started! ✅"
+                }
+            }
+        }
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/your-repo.git'
+                echo "Code Checked Out! ✅"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install -DskipTests'
+                echo "Build Successful! ✅"
+            }
+        }
+
+        stage('Run Smoke Tests') {
+            steps {
+                sh 'mvn test -Dsurefire.suiteXmlFiles=smoke.xml -DseleniumGrid=true'
+                echo "Smoke Tests Completed! ✅"
+            }
+        }
+
+        stage('Run Regression Tests') {
+            steps {
+                sh 'mvn test -Dsurefire.suiteXmlFiles=regression.xml -DseleniumGrid=true'
+                echo "Regression Tests Completed! ✅"
+            }
+        }
+
+        stage('Stop Selenium Grid') {
+            steps {
+                script {
+                    sh "docker compose -f ${COMPOSE_FILE} down"
+                    echo "Selenium Grid Stopped! ✅"
+                }
+            }
+        }
+
+        stage('Publish Report') {
+            steps {
+                publishHTML(target: [
+                    reportDir:   'target/ExtentReports',
+                    reportFiles: 'AutomationReport.html',
+                    reportName:  'Automation Test Report'
+                ])
+                echo "Report Published! ✅"
+            }
+        }
+    }
+
+    post {
+        always {
+            junit 'target/surefire-reports/*.xml'
+            archiveArtifacts artifacts: 
+                '**/target/ExtentReports/*.html'
+        }
+
+        success {
+            mail(
+                to: 'team@company.com',
+                subject: "✅ BUILD PASSED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    Build Status: PASSED
+                    Job: ${env.JOB_NAME}
+                    Build Number: #${env.BUILD_NUMBER}
+                    URL: ${env.BUILD_URL}
+                """
+            )
+        }
+
+        failure {
+            mail(
+                to: 'team@company.com',
+                subject: "❌ BUILD FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    Build Status: FAILED
+                    Job: ${env.JOB_NAME}
+                    Build Number: #${env.BUILD_NUMBER}
+                    Check logs: ${env.BUILD_URL}
+                """
+            )
+        }
+    }
+}
+```
+
+---
+
+## Where To Put This File
+```
+Your project root:
+MyFramework/
+├── Jenkinsfile        ← HERE!
+├── pom.xml
+├── docker/
+│   └── docker-compose.yml
+└── src/
+```
+
+---
+
+## What Each Stage Does
+```
+Stage 1: Start Grid    → docker compose up
+Stage 2: Checkout      → pull from GitHub
+Stage 3: Build         → mvn clean install
+Stage 4: Smoke Tests   → quick sanity check
+Stage 5: Regression    → full test suite
+Stage 6: Stop Grid     → docker compose down
+Stage 7: Publish       → HTML report in Jenkins
+
+Post:
+→ Always: archive reports
+→ Success: green email
+→ Failure: red email with logs

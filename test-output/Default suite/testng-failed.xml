@@ -5,7 +5,7 @@
     <classes>
       <class name="com.api.test.SignUpTest">
         <methods>
-          <include name="signUpTest"/>
+          <include name="signUpTest" invocation-numbers="0 1"/>
         </methods>
       </class> <!-- com.api.test.SignUpTest -->
     </classes>

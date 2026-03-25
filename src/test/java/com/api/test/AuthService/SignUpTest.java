@@ -1,4 +1,4 @@
- package com.api.test;
+ package com.api.test.AuthService;
 
 import org.testng.Assert;
 import org.testng.annotations.Listeners;

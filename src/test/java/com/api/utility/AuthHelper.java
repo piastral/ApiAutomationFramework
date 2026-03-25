@@ -17,6 +17,12 @@ public class AuthHelper {
     // Token lifetime in milliseconds (15 minutes = 900,000 ms)
     private static final long TOKEN_LIFETIME = 15 * 60 * 1000;
     
+    
+ // ✅ Add 2-minute buffer
+ // Refresh token at 13 minutes instead of 15
+ // Prevents token from expiring mid-test!
+ private static final long BUFFER = 2 * 60 * 1000;
+    
     /**
      * Get authentication token (with auto-refresh)
      * 
@@ -75,7 +81,7 @@ public class AuthHelper {
         authToken = loginResponse.getToken();
         
         // Calculate expiry time (current time + token lifetime)
-        tokenExpiryTime = System.currentTimeMillis() + TOKEN_LIFETIME;
+        tokenExpiryTime = (System.currentTimeMillis() + TOKEN_LIFETIME) - BUFFER;
         
         System.out.println("✅ New token generated: " + 
             authToken.substring(0, 20) + "...");
@@ -107,8 +113,9 @@ public class AuthHelper {
     
     /**
      * Manually invalidate cached token (for logout scenarios)
+     * @return void
      */
-    public static void invalidateToken() {
+    public static void  invalidateToken() {
         authToken = null;
         tokenExpiryTime = 0;
         System.out.println("🗑️ Token invalidated (cleared from cache)");
